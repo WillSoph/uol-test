@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import Modal from 'react-modal'
+import { Dashboard } from "./components/Dashboard";
+import { Header } from "./components/Header";
+import { NewCustomerModal } from './components/NewCustomerModal';
+
+import { GlobalStyle } from "./styles/global";
+
+Modal.setAppElement('#root')
 
 function App() {
+
+  const [isNewCustomerModalOpen, setIsNewCustomerModalOpen] = useState(false);
+
+  function handleOpenNewCustomerModal() {
+    setIsNewCustomerModalOpen(true)
+  }
+
+  function handleCloseNewCustomerModal() {
+    localStorage.clear()
+    setIsNewCustomerModalOpen(false)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header onOpenNewCustomerModal={handleOpenNewCustomerModal} />
+      <Dashboard />
+      <NewCustomerModal
+        isOpen={isNewCustomerModalOpen}
+        onRequestClose={handleCloseNewCustomerModal}
+      />
+      <GlobalStyle />
+    </>
   );
 }
 
